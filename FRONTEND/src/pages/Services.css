@@ -1,0 +1,27 @@
+.services-section {
+  padding: 90px 0;
+  background: #ffffff;
+}
+
+.services-section h2 {
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.services-section p {
+  max-width: 720px;
+  margin: auto;
+  opacity: 0.9;
+}
+
+/* Fade animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: all 0.8s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
