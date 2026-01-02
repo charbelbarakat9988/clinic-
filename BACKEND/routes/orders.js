@@ -4,7 +4,7 @@ const auth = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Checkout - create order from cart
+// ✅ Checkout - create order from cart
 router.post("/checkout", auth, async (req, res) => {
   const client_id = req.user.client_id;
   const conn = await pool.getConnection();
@@ -44,6 +44,7 @@ router.post("/checkout", auth, async (req, res) => {
       );
     }
 
+    // ✅ clear cart
     await conn.query("DELETE FROM CartItem WHERE client_id = ?", [client_id]);
 
     await conn.commit();
@@ -58,7 +59,7 @@ router.post("/checkout", auth, async (req, res) => {
   }
 });
 
-// Get orders of logged user
+// ✅ Get orders of logged user
 router.get("/", auth, async (req, res) => {
   try {
     const [rows] = await pool.query(

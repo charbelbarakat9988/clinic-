@@ -1,6 +1,6 @@
-// Cart.jsx (REPLACE your file with this)
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import "./Cart.css";
 
@@ -16,8 +16,10 @@ import placeholderImg from "../assets/images/product-placeholder.jpeg";
 function getProductImage(productName) {
   const name = (productName || "").toLowerCase();
 
-  if (name.includes("royal") || name.includes("canin") || name.includes("dog")) return dogFoodImg;
-  if (name.includes("cat") || name.includes("whiskas") || name.includes("purina")) return catFoodImg;
+  if (name.includes("royal") || name.includes("canin") || name.includes("dog"))
+    return dogFoodImg;
+  if (name.includes("cat") || name.includes("whiskas") || name.includes("purina"))
+    return catFoodImg;
 
   if (
     name.includes("toy") ||
@@ -26,7 +28,8 @@ function getProductImage(productName) {
     name.includes("chew") ||
     name.includes("laser") ||
     name.includes("feather")
-  ) return toyImg;
+  )
+    return toyImg;
 
   if (
     name.includes("shampoo") ||
@@ -34,14 +37,16 @@ function getProductImage(productName) {
     name.includes("flea") ||
     name.includes("tick") ||
     name.includes("brush")
-  ) return shampooImg;
+  )
+    return shampooImg;
 
   if (
     name.includes("vitamin") ||
     name.includes("omega") ||
     name.includes("calcium") ||
     name.includes("supplement")
-  ) return supplementImg;
+  )
+    return supplementImg;
 
   if (
     name.includes("collar") ||
@@ -50,13 +55,15 @@ function getProductImage(productName) {
     name.includes("bottle") ||
     name.includes("bowl") ||
     name.includes("carrier")
-  ) return accessoryImg;
+  )
+    return accessoryImg;
 
   return placeholderImg;
 }
 
 export default function Cart() {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
   const SERVER =
     (api.defaults.baseURL || "").replace(/\/api\/?$/, "").replace(/\/$/, "") ||
@@ -67,6 +74,7 @@ export default function Cart() {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Please login first.");
+      navigate("/login");
       return;
     }
     fetchCart();
@@ -93,18 +101,11 @@ export default function Cart() {
     if (qty < 1) return;
 
     try {
-      // ✅ primary (expects PUT /api/cart/update with {cart_item_id, quantity})
       await api.put("/cart/update", { cart_item_id: id, quantity: qty });
       fetchCart();
     } catch (err) {
-      // ✅ fallback (expects PUT /api/cart/:id with {quantity})
-      try {
-        await api.put(`/cart/${id}`, { quantity: qty });
-        fetchCart();
-      } catch (err2) {
-        console.error("Update qty error:", err2);
-        alert(err2?.response?.data?.message || "Could not update quantity.");
-      }
+      console.error("Update qty error:", err);
+      alert(err?.response?.data?.message || "Could not update quantity.");
     }
   };
 
@@ -122,6 +123,11 @@ export default function Cart() {
     (sum, item) => sum + Number(item.price) * Number(item.quantity),
     0
   );
+
+  const handleCheckout = () => {
+    if (!items.length) return alert("Your cart is empty.");
+    navigate("/checkout");
+  };
 
   return (
     <section className="cart-section">
@@ -143,24 +149,16 @@ export default function Cart() {
             <div className="cart-items">
               {items.map((item) => (
                 <div className="cart-item-card" key={item.cart_item_id}>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="cart-item-img"
-                  />
+                  <img src={item.image} alt={item.name} className="cart-item-img" />
 
                   <div className="cart-item-info">
                     <h5 className="fw-bold mb-1">{item.name}</h5>
-                    <p className="text-muted mb-2">
-                      ${Number(item.price).toFixed(2)}
-                    </p>
+                    <p className="text-muted mb-2">${Number(item.price).toFixed(2)}</p>
 
                     <div className="quantity-controls">
                       <button
                         className="qty-btn"
-                        onClick={() =>
-                          updateQuantity(item.cart_item_id, item.quantity - 1)
-                        }
+                        onClick={() => updateQuantity(item.cart_item_id, item.quantity - 1)}
                       >
                         −
                       </button>
@@ -169,18 +167,13 @@ export default function Cart() {
 
                       <button
                         className="qty-btn"
-                        onClick={() =>
-                          updateQuantity(item.cart_item_id, item.quantity + 1)
-                        }
+                        onClick={() => updateQuantity(item.cart_item_id, item.quantity + 1)}
                       >
                         +
                       </button>
                     </div>
 
-                    <button
-                      className="remove-btn"
-                      onClick={() => removeItem(item.cart_item_id)}
-                    >
+                    <button className="remove-btn" onClick={() => removeItem(item.cart_item_id)}>
                       Remove
                     </button>
                   </div>
@@ -201,7 +194,7 @@ export default function Cart() {
                 <span className="total-price">${total.toFixed(2)}</span>
               </div>
 
-              <Button className="cart-btn w-100 mt-3">
+              <Button className="cart-btn w-100 mt-3" onClick={handleCheckout}>
                 Proceed to Checkout
               </Button>
             </div>

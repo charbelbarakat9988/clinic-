@@ -1,4 +1,4 @@
-// app.js
+// backend/app.js
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Serve uploaded images publicly (only once)
+// ✅ Serve uploaded images publicly
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes

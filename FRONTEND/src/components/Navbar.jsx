@@ -2,16 +2,41 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/images/le_velty_logo.jpg";
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 export default function NavbarComponent() {
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // ✅ Detect login EVERY time page changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+
+    setIsLoggedIn(!!token);
+    setRole(storedRole);
+  }, [location.pathname]); // ✅ key line
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("client_id");
+    localStorage.removeItem("user");
+
+    alert("Logged out successfully!");
+    navigate("/login");
+  };
 
   return (
     <Navbar
@@ -20,7 +45,6 @@ export default function NavbarComponent() {
       className={`navbar-upgrade ${scrolled ? "navbar-scrolled" : ""}`}
     >
       <Container>
-        {/* ✅ Brand clickable to home */}
         <LinkContainer to="/">
           <Navbar.Brand className="d-flex align-items-center brand-area">
             <img
@@ -59,15 +83,44 @@ export default function NavbarComponent() {
               <Nav.Link className="nav-item-link">Cart</Nav.Link>
             </LinkContainer>
 
-            <LinkContainer to="/login">
-              <Nav.Link className="nav-item-link">Login</Nav.Link>
-            </LinkContainer>
+            {/* ✅ Show Orders only if logged in */}
+            {isLoggedIn && (
+              <LinkContainer to="/orders">
+                <Nav.Link className="nav-item-link">Orders</Nav.Link>
+              </LinkContainer>
+            )}
 
-            <LinkContainer to="/register">
-              <Nav.Link className="nav-item-link">Register</Nav.Link>
-            </LinkContainer>
+            {/* ✅ Admin link only if admin */}
+            {isLoggedIn && role === "admin" && (
+              <LinkContainer to="/admin">
+                <Nav.Link className="nav-item-link">Admin</Nav.Link>
+              </LinkContainer>
+            )}
 
-            {/* ✅ Premium CTA button */}
+            {/* ✅ If NOT logged in → show Login/Register */}
+            {!isLoggedIn && (
+              <>
+                <LinkContainer to="/login">
+                  <Nav.Link className="nav-item-link">Login</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/register">
+                  <Nav.Link className="nav-item-link">Register</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
+
+            {/* ✅ If logged in → show Logout */}
+            {isLoggedIn && (
+              <Button
+                variant="outline-danger"
+                className="ms-lg-3 mt-3 mt-lg-0"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            )}
+
             <LinkContainer to="/appointments">
               <Button className="nav-cta-btn ms-lg-3 mt-3 mt-lg-0">
                 Book Now

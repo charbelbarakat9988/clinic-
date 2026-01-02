@@ -30,7 +30,19 @@ export default function Login() {
       // ✅ SAVE TOKEN FOR API
       setAuthToken(res.data.token);
 
-      // ✅ SAVE USER INFO
+      // ✅ SAVE USER INFO FOR CHECKOUT + PROFILE
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          client_id: res.data.client_id,
+          name: res.data.name,
+          email: res.data.email,
+          phone: res.data.phone, // ✅ IMPORTANT
+          role: res.data.role,
+        })
+      );
+
+      // (Optional) keep these too if you want
       localStorage.setItem("client_id", res.data.client_id);
       localStorage.setItem("role", res.data.role);
 
@@ -52,7 +64,6 @@ export default function Login() {
         <h2 className="auth-title">Welcome Back</h2>
         <p className="auth-subtitle">Login to manage your pet’s care ✨</p>
 
-        {/* ✅ Error Alert */}
         {error && <Alert variant="danger">{error}</Alert>}
 
         <Form onSubmit={submit}>
@@ -83,7 +94,6 @@ export default function Login() {
               required
             />
 
-            {/* ✅ Show/Hide password */}
             <span
               className="toggle-pass"
               onClick={() => setShowPass(!showPass)}
