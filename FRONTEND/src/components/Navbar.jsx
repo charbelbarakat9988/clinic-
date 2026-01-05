@@ -79,6 +79,12 @@ export default function NavbarComponent() {
               <Nav.Link className="nav-item-link">Appointments</Nav.Link>
             </LinkContainer>
 
+            {isLoggedIn && (
+              <LinkContainer to="/manage-pets">
+                <Nav.Link className="nav-item-link">Manage Pets</Nav.Link>
+              </LinkContainer>
+            )}
+
             <LinkContainer to="/cart">
               <Nav.Link className="nav-item-link">Cart</Nav.Link>
             </LinkContainer>

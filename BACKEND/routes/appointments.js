@@ -15,6 +15,16 @@ router.post("/", auth, async (req, res) => {
   }
 
   try {
+    // Validate referenced foreign keys exist
+    const [[serviceRow]] = await pool.query(`SELECT service_id FROM Service WHERE service_id = ?`, [service_id]);
+    if (!serviceRow) return res.status(400).json({ message: "Invalid service_id" });
+
+    const [[doctorRow]] = await pool.query(`SELECT doctor_id FROM Doctor WHERE doctor_id = ?`, [doctor_id]);
+    if (!doctorRow) return res.status(400).json({ message: "Invalid doctor_id" });
+
+    const [[petRow]] = await pool.query(`SELECT pet_id FROM Pet WHERE pet_id = ? AND client_id = ?`, [pet_id, req.user.client_id]);
+    if (!petRow) return res.status(400).json({ message: "Invalid pet_id for this client" });
+
     await pool.query(
       `INSERT INTO Appointment
        (client_id, pet_id, doctor_id, service_id, appointment_date, status)

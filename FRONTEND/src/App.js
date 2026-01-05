@@ -7,6 +7,8 @@ import Services from "./pages/Services";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
 import Appointments from "./pages/Appointments";
+import ManagePets from "./pages/ManagePets";
+import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -30,6 +32,8 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/appointments" element={<Appointments />} />
+        <Route path="/manage-pets" element={<ManagePets />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />

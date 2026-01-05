@@ -43,7 +43,7 @@ export default function Home() {
     <>
       {/* HERO SECTION */}
       <section className="hero-section">
-        <Carousel fade controls={false} indicators interval={4500}>
+        <Carousel fade controls={false} indicators interval={150}>
           {sliderImages.map((img, idx) => (
             <Carousel.Item key={idx}>
               <div className="hero-image-container">

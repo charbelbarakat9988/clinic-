@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import api from "../api";
@@ -18,9 +18,24 @@ export default function Appointments() {
   const [form, setForm] = useState({
     pet_id: "",
     doctor_id: "",
-    service_id: selectedService?.title || "",
+    service_id: selectedService?.id || "",
     appointment_date: "",
   });
+
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const { data } = await api.get("/pets");
+        setPets(data);
+        if (data.length) setForm((f) => ({ ...f, pet_id: data[0].pet_id }));
+      } catch (err) {
+        console.error("Fetch pets error:", err);
+      }
+    };
+    fetchPets();
+  }, []);
 
   const change = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,7 +48,7 @@ export default function Appointments() {
       setForm({
         pet_id: "",
         doctor_id: "",
-        service_id: selectedService?.title || "",
+        service_id: selectedService?.id || "",
         appointment_date: "",
       });
     } catch (err) {
@@ -61,25 +76,40 @@ export default function Appointments() {
                 <Form.Label className="appointment-label">
                   Selected Service
                 </Form.Label>
+                {/* show label to user */}
                 <Form.Control
-                  name="service_id"
-                  value={form.service_id}
+                  name="service_label"
+                  value={selectedService?.title || "-- Select a service --"}
                   readOnly
                   className="appointment-input"
                 />
+                {/* keep numeric id hidden for submission */}
+                <input type="hidden" name="service_id" value={form.service_id} />
+                {selectedService?.price != null && (
+                  <div className="mt-2">
+                    <strong>Price: </strong>
+                    <span>${Number(selectedService.price).toFixed(2)}</span>
+                  </div>
+                )}
               </Form.Group>
 
-              {/* PET ID */}
+              {/* PET SELECT */}
               <Form.Group className="mb-3">
-                <Form.Label className="appointment-label">Pet ID</Form.Label>
-                <Form.Control
+                <Form.Label className="appointment-label">Pet</Form.Label>
+                <Form.Select
                   name="pet_id"
                   value={form.pet_id}
                   onChange={change}
                   required
                   className="appointment-input"
-                  placeholder="Enter your pet ID"
-                />
+                >
+                  <option value="">-- Choose a Pet --</option>
+                  {pets.map((p) => (
+                    <option key={p.pet_id} value={p.pet_id}>
+                      {p.pet_name} {p.species ? `(${p.species})` : ""}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
 
               {/* DOCTOR SELECT */}

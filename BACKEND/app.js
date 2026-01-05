@@ -10,6 +10,9 @@ const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/orders");
 const appointmentRoutes = require("./routes/appointments");
 const adminRoutes = require("./routes/admin");
+const petsRoutes = require("./routes/pets");
+const servicesSeed = require("./routes/services_seed");
+const servicesRoutes = require("./routes/services");
 
 const app = express();
 
@@ -27,6 +30,9 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/pets", petsRoutes);
+app.use("/api/services", servicesRoutes);
+app.use("/api/services_seed", servicesSeed);
 
 // Test route
 app.get("/", (req, res) => {
