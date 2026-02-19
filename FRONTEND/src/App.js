@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
 import NavbarComponent from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -19,6 +18,7 @@ import Checkout from "./pages/Checkout";
 
 import AdminRoute from "./routes/AdminRoute";
 import AdminAddProduct from "./pages/AdminAddProduct";
+import AdminAddDoctor from "./pages/AdminAddDoctor";
 
 function App() {
   // ... (keep your existing useEffect logic)
@@ -38,6 +38,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="/admin/products/add" element={<AdminRoute><AdminAddProduct /></AdminRoute>} />
+        <Route path="/admin/doctors" element={<AdminRoute><AdminAddDoctor /></AdminRoute>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         {/* <Route path="/orders" element={<Orders />} /> */}

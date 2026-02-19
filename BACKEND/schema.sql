@@ -58,7 +58,10 @@ CREATE TABLE OrderItem (
 CREATE TABLE Doctor (
   doctor_id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(100),
-  specialization VARCHAR(100)
+  specialization VARCHAR(100),
+  specialty VARCHAR(100),
+  bio TEXT,
+  image VARCHAR(255)
 );
 
 CREATE TABLE Service (
