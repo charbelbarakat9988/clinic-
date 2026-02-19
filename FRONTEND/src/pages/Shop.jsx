@@ -1,5 +1,5 @@
 // pages/Shop.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Alert, Spinner, Button, Form } from "react-bootstrap";
 import api from "../api";
 import ProductCard from "../components/ProductCard";
@@ -50,8 +50,8 @@ export default function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [search, setSearch] = useState("");
+
   const role = localStorage.getItem("role");
 
   const SERVER =
@@ -59,7 +59,8 @@ export default function Shop() {
     import.meta.env.VITE_SERVER_URL ||
     "http://localhost:5000";
 
-  const fetchProducts = async () => {
+  // ✅ useCallback fixes Netlify ESLint error
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -83,11 +84,12 @@ export default function Shop() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [SERVER]);
 
+  // ✅ Proper dependency
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
@@ -100,7 +102,7 @@ export default function Shop() {
 
     try {
       await api.delete(`/admin/products/${id}`);
-      fetchProducts();
+      fetchProducts(); // re-fetch safely
     } catch (err) {
       alert(err?.response?.data?.message || "Failed to delete product");
     }
