@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router(); // ✅ MUST BE DEFINED
 const db = require("../db");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // REGISTER
