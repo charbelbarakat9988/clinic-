@@ -258,3 +258,111 @@ html {
   opacity: 1;
   transform: translateY(0px);
 }
+
+/* ============================
+   STATS COUNTER SECTION
+   ============================ */
+.stats-section {
+  padding: 80px 0;
+  background: #f9fffe;
+}
+
+.stat-card {
+  padding: 32px 20px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+  transition: 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(36, 237, 197, 0.18);
+}
+
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #24edc5;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================
+   FAQ SECTION
+   ============================ */
+.faq-section {
+  background: #f4fdfb;
+}
+
+.faq-accordion .accordion-item {
+  border: none;
+  border-radius: 14px !important;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.faq-accordion .accordion-button {
+  font-weight: 700;
+  font-size: 1rem;
+  background: #fff;
+  color: #000;
+  border-radius: 14px !important;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+  background: #24edc5;
+  color: #000;
+  box-shadow: none;
+}
+
+.faq-accordion .accordion-body {
+  font-size: 0.97rem;
+  color: #444;
+  background: #fff;
+  line-height: 1.7;
+}
+
+/* ============================
+   BACK TO TOP BUTTON
+   ============================ */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #24edc5;
+  color: #000;
+  font-size: 1.4rem;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(36, 237, 197, 0.45);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+  z-index: 9999;
+  line-height: 1;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: #1bd6b2;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(36, 237, 197, 0.5);
+}

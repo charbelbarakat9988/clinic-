@@ -9,7 +9,7 @@ export default function Footer() {
 
           {/* BRAND */}
           <div className="col-md-4 text-center text-md-start">
-            <h4 className="footer-title">LeVelty Pet Clinic</h4>
+            <h4 className="footer-title">LeVetly Pet Clinic</h4>
             <p className="footer-desc">
               Premium veterinary care, grooming, and wellness services for your pets.
             </p>
@@ -28,8 +28,8 @@ export default function Footer() {
 
             <p className="footer-text">
               <FaEnvelope className="footer-icon" />
-              <a href="mailto:info@leveltyclinic.com" className="footer-link">
-                info@leveltyclinic.com
+              <a href="mailto:info@levetlyclinic.com" className="footer-link">
+                info@levetlyclinic.com
               </a>
             </p>
 
@@ -83,7 +83,7 @@ export default function Footer() {
 
         {/* COPYRIGHT */}
         <div className="footer-bottom">
-          <p>© 2025 LeVelty Pet Clinic — All Rights Reserved</p>
+          <p>© 2025 LeVetly Pet Clinic — All Rights Reserved</p>
         </div>
       </div>
     </footer>

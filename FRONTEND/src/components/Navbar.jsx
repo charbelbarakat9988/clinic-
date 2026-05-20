@@ -51,10 +51,10 @@ export default function NavbarComponent() {
               src={logo}
               height={scrolled ? "34" : "50"}
               className="logo-img"
-              alt="LeVelty Logo"
+              alt="LeVetly Logo"
             />
             <span className={`brand-title ${scrolled ? "shrink-text" : ""}`}>
-              LeVelty Pet Clinic
+              LeVetly Pet Clinic
             </span>
           </Navbar.Brand>
         </LinkContainer>
