@@ -30,14 +30,9 @@ A modern full-stack veterinary clinic management system built with React, Node.j
 
 ## 🏠 Main Clinic Pages
 
-![Clinic Pages](./screenshots/clinic%20pages.png)
+![Clinic Pages](./FRONTEND/screenshots/clinic%20pages.png)
 
----
-
-## 🛠️ Admin Dashboard Pages
-
-![Admin Pages](./screenshots/admin%20clinic%20pages.png)
-
+![Admin Pages](./FRONTEND/screenshots/admin%20clinic%20pages.png)
 ---
 
 # 🧑‍💻 Tech Stack
